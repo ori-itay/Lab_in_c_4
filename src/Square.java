@@ -1,9 +1,8 @@
 
 public class Square extends Rectangle {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public Square(Color color, float x1, float y1, float length) {
+		
 	}
 
 }

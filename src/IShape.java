@@ -5,9 +5,14 @@ public interface IShape {
 		BLUE, RED, YELLOW, GREEN 
 	}
 	
-	
-	
-	public Color get_color();
+	public void color(Color color);
 	public float get_area();
+	public void delete();
+	public void move(float change_x, float change_y);
+	public void copy();
+	public void circumference();
+	public void is_inside();
+	
+	
 
 }

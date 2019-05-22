@@ -1,9 +1,8 @@
 
 public class Parallelogram extends Shape {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public Parallelogram(Color color, float x1, float y1, float x2, float y2, float x3, float y3) {
+		
 	}
 
 }

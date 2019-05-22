@@ -1,9 +1,8 @@
 
 public class Circle extends Ellipse {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public Circle(Color color,  float x1, float x2, float radius) {
+		
 	}
 
 }
