@@ -1,9 +1,15 @@
 
 public class Triangle extends Shape {
-
-	public Triangle(Color color, float x1, float y1, float x2, float y2, float x3, float y3) {
+	public double x2;
+	public double y2;
+	public double x3;
+	public double y3;
+	
+	public Triangle(Color color, double x1, double y1, double x2, double y2, double x3, double y3) {
 		super();
 		System.out.println("aa");
 	}
+	
+	
 
 }

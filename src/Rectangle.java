@@ -1,8 +1,8 @@
 
 public class Rectangle extends Parallelogram {
 
-	public Rectangle(Color color, float x1, float y1, float x2, float y2) {
-		
+	public Rectangle(Color color, double x1, double y1, double x2, double y2) {
+		super();
 	}
 
 }

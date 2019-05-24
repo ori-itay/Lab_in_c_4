@@ -1,10 +1,10 @@
 
 public abstract class Shape implements IShape {
 	public Color color;
-	public float area;
-	public float x1;
-	public float y1;
-	public static long ID;
+	public double area;
+	public double x1;
+	public double y1;
+	public static int ID;
 	
 	public Shape() {
 		ID++;
@@ -12,8 +12,8 @@ public abstract class Shape implements IShape {
 	}
 	
 //	public float get_area() {
-//		return this.area;
-//	}
+	//	
+	//}
 	
 	public void color(Color color) {
 		this.color = color;
