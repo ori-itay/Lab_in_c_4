@@ -13,7 +13,7 @@ public interface IShape {
 	//public void copy();
 	public void getCircumference();
 	//public void getSircumference();
-	public void is_inside();
+	public boolean is_inside(double x, double y);
 	
 	
 

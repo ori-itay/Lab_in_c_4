@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,10 +9,10 @@ import java.util.Map;
 public class ToyCAD {
 	
 	public static void main(String[] args) { // DEBUGGING GOES LIKE THIS: checking new command with all shapes, move on to next command etc
-		ArrayList<IShape> shapes = new ArrayList<>();
+		List<IShape> shapes = new ArrayList<>();
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
-			String line = scanner.nextLine();
+			String line = scanner.nextLine().replaceAll("\\s+", " ");
 			Map<String,Object> parsedCommand = parseLine(line);
 			boolean exit = executeCommand(parsedCommand, shapes);
 			if (exit) {break; }
@@ -18,7 +20,7 @@ public class ToyCAD {
 		scanner.close();
 	}
 	
-	private static boolean executeCommand(Map<String,Object> parsedCommand, ArrayList<IShape> shapes ) {
+	private static boolean executeCommand(Map<String,Object> parsedCommand, List<IShape> shapes ) {
 		switch ((String)parsedCommand.get("command")) {
 			
 			case "new":
@@ -32,6 +34,9 @@ public class ToyCAD {
 				return false;
 			case "copy": //specifically debug this
 				
+			case "is_inside":
+				if (shapes.get((int) parsedCommand.get("ID")).is_inside((double) parsedCommand.get("x"), (double) parsedCommand.get("y"))) { System.out.println("1");}
+				else {System.out.println("0");}
 			case "EXIT":
 				return true;
 			default:
@@ -43,7 +48,7 @@ public class ToyCAD {
 	
 
 
-	private static void addNewInstanceToShapes(ArrayList<IShape> shapes, Map<String,Object> parsedCommand) { // TODO add area field...to consturtor or not..L54/55
+	private static void addNewInstanceToShapes(List<IShape> shapes, Map<String,Object> parsedCommand) { // TODO add area field...to consturtor or not..L54/55
 		String className = (String) parsedCommand.get("className"); 
 		double x1 = (double) parsedCommand.get("x1");
 		double y1 = (double) parsedCommand.get("y1");
@@ -85,34 +90,35 @@ public class ToyCAD {
 
 	private static Map<String, Object> parseLine(String line) {
 		Map<String, Object> parsedCommand = new HashMap<>();
-		String[] splittedLine = line.split(" ");
-		parsedCommand.put("command", splittedLine[0]);
+		List<String> splittedLine = Arrays.asList(line.split(" "));
+		if (splittedLine.get(0).equals("")) { splittedLine.remove(0); }
+		parsedCommand.put("command", splittedLine.get(0));
 		
-		switch (splittedLine[0]) {
+		switch (splittedLine.get(0)) {
 			case ("new"):
 				parseNewCommand(splittedLine, parsedCommand);
 				break;
 			case ("delete"):
-				parsedCommand.put("ID",    Integer.valueOf(splittedLine[1]));
+				parsedCommand.put("ID",    Integer.valueOf(splittedLine.get(1)));
 				break;
 			case ("move"): // upper case or lower case?. case move and copy are the same, it will add the same arguments to the parsedCommand 
 			case ("copy"):
-				parsedCommand.put("ID",    Integer.valueOf(splittedLine[1]));
-				parsedCommand.put("moveX", Double.valueOf(splittedLine[2]));
-				parsedCommand.put("moveY", Double.valueOf(splittedLine[3]));
+				parsedCommand.put("ID",    Integer.valueOf(splittedLine.get(1)));
+				parsedCommand.put("moveX", Double.valueOf(splittedLine.get(2)));
+				parsedCommand.put("moveY", Double.valueOf(splittedLine.get(3)));
 				break;
 			case ("area"):
 			case ("circumference"):
-				parsedCommand.put("color", IShape.Color.valueOf(splittedLine[1]));
+				parsedCommand.put("color", IShape.Color.valueOf(splittedLine.get(1)));
 				break;
 			case ("color"): // upper case or lower case?
-				parsedCommand.put("color", IShape.Color.valueOf(splittedLine[1]));
-				parsedCommand.put("ID", Integer.valueOf(splittedLine[2]));
+				parsedCommand.put("color", IShape.Color.valueOf(splittedLine.get(1)));
+				parsedCommand.put("ID", Integer.valueOf(splittedLine.get(2)));
 				break;
 			case ("is_inside"):
-				parsedCommand.put("ID", Integer.valueOf(splittedLine[1]));
-				parsedCommand.put("x", Double.valueOf(splittedLine[2]));
-				parsedCommand.put("y", Double.valueOf(splittedLine[3]));
+				parsedCommand.put("ID", Integer.valueOf(splittedLine.get(1)));
+				parsedCommand.put("x", Double.valueOf(splittedLine.get(2)));
+				parsedCommand.put("y", Double.valueOf(splittedLine.get(3)));
 				break;
 			case ("EXIT"):
 				break;
@@ -123,33 +129,33 @@ public class ToyCAD {
 		return parsedCommand;
 	}
 	
-	private static void parseNewCommand(String[] splittedLine, Map<String,Object> parsedCommand){
-		parsedCommand.put("className", splittedLine[1]);
-		parsedCommand.put("color", IShape.Color.valueOf(splittedLine[2]));
-		parsedCommand.put("x1", Double.valueOf(splittedLine[3]));
-		parsedCommand.put("y1", Double.valueOf(splittedLine[4]));
+	private static void parseNewCommand(List<String> splittedLine, Map<String,Object> parsedCommand){
+		parsedCommand.put("className", splittedLine.get(1)); // shouldnt be when is_inside etc......
+		parsedCommand.put("color", IShape.Color.valueOf(splittedLine.get(2)));
+		parsedCommand.put("x1", Double.valueOf(splittedLine.get(3)));
+		parsedCommand.put("y1", Double.valueOf(splittedLine.get(4)));
 		
-		if (splittedLine[1].equals("Ellipse") ||
-				splittedLine[1].equals("Parallelogram") || 
-				splittedLine[1].equals("Rectangle") || 
-				splittedLine[1].equals("Triangle")) 
+		if (splittedLine.get(1).equals("Ellipse") ||
+				splittedLine.get(1).equals("Parallelogram") || 
+				splittedLine.get(1).equals("Rectangle") || 
+				splittedLine.get(1).equals("Triangle")) 
 		{
-			parsedCommand.put("x2", Double.valueOf(splittedLine[5]));
-			parsedCommand.put("y2", Double.valueOf(splittedLine[6]));
+			parsedCommand.put("x2", Double.valueOf(splittedLine.get(5)));
+			parsedCommand.put("y2", Double.valueOf(splittedLine.get(6)));
 		}
-		if (splittedLine[1].equals("Paralellogram") || splittedLine[1].equals("Triangle")) {
-			parsedCommand.put("x3", Double.valueOf(splittedLine[7]));
-			parsedCommand.put("y3", Double.valueOf(splittedLine[8]));
+		if (splittedLine.get(1).equals("Paralellogram") || splittedLine.get(1).equals("Triangle")) {
+			parsedCommand.put("x3", Double.valueOf(splittedLine.get(7)));
+			parsedCommand.put("y3", Double.valueOf(splittedLine.get(8)));
 		}
 		
-		if (splittedLine[1].equals("Circle")) {
-			parsedCommand.put("radius", Double.valueOf(splittedLine[5]));
+		if (splittedLine.get(1).equals("Circle")) {
+			parsedCommand.put("radius", Double.valueOf(splittedLine.get(7)));
 		}
-		else if (splittedLine[1].equals("Ellipse")) {
-			parsedCommand.put("D", Double.valueOf(splittedLine[7]));
+		else if (splittedLine.get(1).equals("Ellipse")) {
+			parsedCommand.put("D", Double.valueOf(splittedLine.get(7)));
 		}
-		else if (splittedLine[1].equals("Square")) {
-			parsedCommand.put("length", Double.valueOf(splittedLine[5]));
+		else if (splittedLine.get(1).equals("Square")) {
+			parsedCommand.put("length", Double.valueOf(splittedLine.get(5)));
 		}
 	}
 	
