@@ -12,6 +12,13 @@ public abstract class Shape implements IShape {
 		
 	}
 	
+	public Shape(Color color, double x1, double y1) {
+		this();
+		this.x1 = x1;
+		this.y1 = y1;
+		this.color = color;
+	}
+	
 
 	
 /*	public double getArea() {

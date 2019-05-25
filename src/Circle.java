@@ -13,8 +13,8 @@ public class Circle extends Ellipse {
 		super();
 		this.radius = another.radius;
 	} */
-	public void move(double moveX, double moveY) {
-		super.move(moveX, moveY); // TODO need to call Shape move..... 
-	}
+//	public void move(double moveX, double moveY) {
+//		 
+//	}
 
 }

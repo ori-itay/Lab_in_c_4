@@ -30,13 +30,14 @@ public class ToyCAD {
 				shapes.remove(parsedCommand.get("ID"));
 				return false;
 			case "move":
-				shapes.get((int) parsedCommand.get("ID")).move((double) parsedCommand.get("x"),(double) parsedCommand.get("y")); // now in whatever shape it is, use what's needed (for example if the shape if circle, in the implementation of move in circle it will use only x1 x2 and radius..(so need to change 'move' declaration)
+				shapes.get((int) parsedCommand.get("ID")).move((double) parsedCommand.get("moveX"),(double) parsedCommand.get("moveY")); // now in whatever shape it is, use what's needed (for example if the shape if circle, in the implementation of move in circle it will use only x1 x2 and radius..(so need to change 'move' declaration)
 				return false;
 			case "copy": //specifically debug this
 				
 			case "is_inside":
 				if (shapes.get((int) parsedCommand.get("ID")).is_inside((double) parsedCommand.get("x"), (double) parsedCommand.get("y"))) { System.out.println("1");}
 				else {System.out.println("0");}
+				return false;
 			case "EXIT":
 				return true;
 			default:
@@ -149,7 +150,7 @@ public class ToyCAD {
 		}
 		
 		if (splittedLine.get(1).equals("Circle")) {
-			parsedCommand.put("radius", Double.valueOf(splittedLine.get(7)));
+			parsedCommand.put("radius", Double.valueOf(splittedLine.get(5)));
 		}
 		else if (splittedLine.get(1).equals("Ellipse")) {
 			parsedCommand.put("D", Double.valueOf(splittedLine.get(7)));
