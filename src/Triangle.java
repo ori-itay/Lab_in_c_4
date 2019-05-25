@@ -10,6 +10,13 @@ public class Triangle extends Shape {
 		System.out.println("aa");
 	}
 	
-	
+	@Override
+	public void move(double moveX, double moveY) { // code reuse with the one in parallelogram
+		super.move(moveX, moveY); 
+		this.x2 += moveX;
+		this.x3 += moveX;
+		this.y2 += moveY;
+		this.y3 += moveY;
+	}
 
 }

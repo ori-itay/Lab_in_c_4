@@ -1,21 +1,29 @@
 
 public abstract class Shape implements IShape {
 	public Color color;
-	public double area;
+	//public double area; // private?
 	public double x1;
 	public double y1;
 	public static int ID;
 	
 	public Shape() {
-		ID++;
 		System.out.println(ID);
+		ID++;
+		
 	}
 	
-//	public float get_area() {
-	//	
-	//}
+
 	
-	public void color(Color color) {
+/*	public double getArea() {
+		return this.area;
+	} */
+	
+	public void setColor(Color color) {
 		this.color = color;
+	}
+	
+	public void move(double moveX, double moveY) {
+		this.x1 += moveX;
+		this.y1 += moveY;
 	}
 }
