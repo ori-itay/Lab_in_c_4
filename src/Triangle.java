@@ -10,7 +10,9 @@ public class Triangle extends Shape {
 		this.x2 = x2;
 		this.x3 = x3;
 		this.y2 = y2;
-		this.y3 = y3;		
+		this.y3 = y3;	
+		this.area = computeArea(x1, y1 ,x2 ,y2 ,x3 ,y3);
+		this.circumference = computeCircumference(x1, y1 ,x2 ,y2 ,x3 ,y3);
 	}
 	
 	@Override
@@ -23,21 +25,25 @@ public class Triangle extends Shape {
 	}
 
 	@Override
-	public double getArea() {
-		//TODO either calculate sizes and then s= (a+b+c)/2, then sqrt(s*(s-a)(s-b)(s-c)). or calculate it with what he said, half a paralellogram
-		return 0;
-	}
-
-	@Override
-	public void getCircumference() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public boolean is_inside(double x, double y) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
+	public Triangle copy() {
+		return new Triangle(this.color, this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+	}
+	
+	private static double computeArea(double x1, double y1,double x2, double y2, double x3, double y3) {	
+		return Parallelogram.computeArea(x1, y1, x2, y2, x3, y3) / 2;
+	}
+	
+	private static double computeCircumference(double x1, double y1, double x2, double y2, double x3, double y3) {
+		double aSideLength = arithmeticDistance(x1, y1, x2, y2);
+		double bSideLength = arithmeticDistance(x1, y1, x3, y3);
+		double cSideLength = arithmeticDistance(x2, y2, x3, y3);
+		double circumference = aSideLength + bSideLength + cSideLength;
+		return circumference;	
+	}
 }

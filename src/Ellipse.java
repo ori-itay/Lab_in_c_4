@@ -3,20 +3,16 @@ import java.lang.Math;
 public class Ellipse extends Shape {
 	private double x2; 
 	private double y2;
-	private double D;
-	
+	public double D;
 	
 	
 	public Ellipse(Color color, double x1, double y1, double x2, double y2, double D) {
-		this.color 	= color;
-		this.x1 	= x1;
+		super(color, x1, y1);
 		this.x2 	= x2;
-		this.y1 	= y1;
 		this.y2 	= y2;
 		this.D		= D;
-	}
-	
-	public Ellipse(){
+		this.area = computeArea(x1, y1, x2, y2, D);
+		//this.circumference = computeCircumference();
 	}
 	
 	@Override
@@ -24,18 +20,6 @@ public class Ellipse extends Shape {
 		super.move(moveX, moveY);
 		this.x2 += moveX;
 		this.y2 += moveY;
-	}
-
-	@Override
-	public double getArea() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void getCircumference() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -50,10 +34,23 @@ public class Ellipse extends Shape {
 		}
 	}
 
-	private double arithmeticDistance(double x1, double y1, double x2, double y2) { // TODO need to return two decimal points
-		double distance = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
-		return distance;
-		
+	@Override
+	public Ellipse copy() {
+		return new Ellipse(this.color, this.x1, this.y1, this.x2, this.y2, this.D);
 	}
-
+	
+	private static double computeArea(double x1, double y1, double x2, double y2, double D) {
+		double focus_dist = arithmeticDistance(x1, y1, x2, y2);
+		double a = D/2;
+		double c = focus_dist/2;
+		double b = Math.sqrt(Math.pow(a, 2) - Math.pow(c, 2));
+		double area = Math.PI*a*b;
+		return area;
+	}
+	
+	private static double computeCircumference(double x1, double y1, double x2, double y2, double D) {
+		//TODO implement
+		double circumference = 0;
+		return circumference;
+	}
 }
