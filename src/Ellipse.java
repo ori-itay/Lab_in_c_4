@@ -4,15 +4,20 @@ public class Ellipse extends Shape {
 	private double x2; 
 	private double y2;
 	public double D;
-	
+	public double a;
+	public double b;	
 	
 	public Ellipse(Color color, double x1, double y1, double x2, double y2, double D) {
 		super(color, x1, y1);
 		this.x2 	= x2;
 		this.y2 	= y2;
 		this.D		= D;
-		this.area = computeArea(x1, y1, x2, y2, D);
-		//this.circumference = computeCircumference();
+		this.a = D/2;
+		double focusDist = arithmeticDistance(x1, y1, x2, y2);
+		double c = focusDist/2;
+		this.b = Math.sqrt(Math.pow(a, 2) - Math.pow(c, 2));
+		this.area = Math.PI * this.a * this.b;
+		this.circumference = computeCircumference(this.a, this.b);
 	}
 	
 	@Override
@@ -39,18 +44,29 @@ public class Ellipse extends Shape {
 		return new Ellipse(this.color, this.x1, this.y1, this.x2, this.y2, this.D);
 	}
 	
-	private static double computeArea(double x1, double y1, double x2, double y2, double D) {
-		double focus_dist = arithmeticDistance(x1, y1, x2, y2);
-		double a = D/2;
-		double c = focus_dist/2;
-		double b = Math.sqrt(Math.pow(a, 2) - Math.pow(c, 2));
-		double area = Math.PI*a*b;
-		return area;
-	}
 	
-	private static double computeCircumference(double x1, double y1, double x2, double y2, double D) {
-		//TODO implement
-		double circumference = 0;
+	private static double computeCircumference(double a, double b) {
+		final int N = 1000;
+		double sum = 0;
+		
+		for(int n = 1; n < N; n++) {
+			double A = doublefactorial(2*n - 1) / (Math.pow(2, n) * factorial(n) );
+			double h = Math.pow(a-b, 2) / Math.pow(a+b, 2);
+			double B = Math.pow(h, n) / Math.pow(2*n -1, 2);
+			sum+= Math.pow(A, 2)*B;
+		}
+		double circumference = Math.PI*(a+b)*(sum + 1);
 		return circumference;
 	}
+	
+    private static int doublefactorial(int n){ 
+        if (n == 0 || n==1) 
+            return 1; 
+              
+        return n * doublefactorial(n - 2); 
+    }
+    
+    private static int factorial(int n){
+    	return doublefactorial(n)*doublefactorial(n-1);
+    }  
 }

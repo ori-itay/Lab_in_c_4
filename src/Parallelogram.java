@@ -1,5 +1,3 @@
-import IShape.Color;
-
 public class Parallelogram extends Shape {
 	public double x2;
 	public double y2;
