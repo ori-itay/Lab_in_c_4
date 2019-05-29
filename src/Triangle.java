@@ -27,7 +27,20 @@ public class Triangle extends Shape {
 	@Override
 	public boolean is_inside(double x, double y) {
 		// TODO Auto-generated method stub
-		return false;
+		   /* Calculate area of triangle ABC */
+	    double A = this.getArea(); 
+	   
+	   /* Calculate area of triangle PBC */  
+	    double A1 = computeArea(x, y ,x2 ,y2 ,x3 ,y3);
+	   
+	   /* Calculate area of triangle PAC */  
+	    double A2 = computeArea(x1, y1 ,x ,y ,x3 ,y3);
+	   
+	   /* Calculate area of triangle PAB */   
+	    double A3 = computeArea(x1, y1 ,x2 ,y2 ,x ,y);
+	     
+	   /* Check if sum of A1, A2 and A3 is same as A */
+	    return (A == A1 + A2 + A3); 
 	}
 
 	@Override

@@ -1,3 +1,4 @@
+import IShape.Color;
 
 public class Parallelogram extends Shape {
 	public double x2;
@@ -33,8 +34,9 @@ public class Parallelogram extends Shape {
 
 	@Override
 	public boolean is_inside(double x, double y) {
-		// TODO Auto-generated method stub
-		return false;
+		Triangle T1  = new Triangle(this.color, this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+		Triangle T2  = new Triangle(this.color, this.x1, this.y1, this.x4, this.y4, this.x3, this.y3);
+		return (T1.is_inside(x, y) || T2.is_inside(x, y));
 	}
 	
 	@Override
