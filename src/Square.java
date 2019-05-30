@@ -1,8 +1,8 @@
 public class Square extends Rectangle {
   public double length;
 
-  public Square(Color color, double x1, double y1, double length) {
-    super(color, x1 - length / 2, y1 - length / 2, x1 + length / 2, y1 + length / 2);
+  public Square(Color color, double centerX, double centerY, double length) {
+    super(color, centerX - length / 2, centerY - length / 2, centerX + length / 2, centerY + length / 2);
   }
 
   @Override

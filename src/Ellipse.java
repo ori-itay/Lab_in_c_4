@@ -6,13 +6,13 @@ public class Ellipse extends Shape {
   public double a;
   public double b;
 
-  public Ellipse(Color color, double x1, double y1, double x2, double y2, double D) {
-    super(color, x1, y1);
-    this.x2 = x2;
-    this.y2 = y2;
+  public Ellipse(Color color, double focusX1, double focusY1, double focusX2, double focusY2, double D) {
+    super(color, focusX1, focusX2);
+    this.x2 = focusX2;
+    this.y2 = focusY2;
     this.D = D;
     this.a = D / 2;
-    double focusDist = arithmeticDistance(x1, y1, x2, y2);
+    double focusDist = arithmeticDistance(this.x1, this.y1, this.x2, this.y2);
     double c = focusDist / 2;
     this.b = Math.sqrt(Math.pow(a, 2) - Math.pow(c, 2));
     this.area = Math.PI * this.a * this.b;
