@@ -12,7 +12,7 @@ public interface IShape {
   public Color getColor();
 
   public double getArea();
-  // public double setArea(); put in Shape -- NOT NEDDED?
+
   public void move(double moveX, double moveY);
 
   public Shape copy();

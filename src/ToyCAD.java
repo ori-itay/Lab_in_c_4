@@ -157,8 +157,7 @@ public class ToyCAD {
       case ("DELETE"):
         parsedCommand.put("ID", Integer.valueOf(splittedLine.get(1)));
         break;
-      case ("MOVE"): // case move and copy are the same, it will add the same arguments to the
-                     // parsedCommand
+      case ("MOVE"): 
       case ("COPY"):
         parsedCommand.put("ID", Integer.valueOf(splittedLine.get(1)));
         parsedCommand.put("moveX", Double.valueOf(splittedLine.get(2)));
@@ -188,7 +187,7 @@ public class ToyCAD {
 
   private static void parseNewCommand(
       List<String> splittedLine, Map<String, Object> parsedCommand) {
-    parsedCommand.put("className", splittedLine.get(1)); // shouldnt be when is_inside etc......
+    parsedCommand.put("className", splittedLine.get(1));
     parsedCommand.put("color", IShape.Color.valueOf(splittedLine.get(2)));
     parsedCommand.put("x1", Double.valueOf(splittedLine.get(3)));
     parsedCommand.put("y1", Double.valueOf(splittedLine.get(4)));

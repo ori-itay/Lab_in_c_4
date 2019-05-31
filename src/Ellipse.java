@@ -1,10 +1,13 @@
 
 public class Ellipse extends Shape {
+	
+  protected static final int N = 16;
+	
   private double x2;
   private double y2;
-  public double D;
-  public double a;
-  public double b;
+  protected double D;
+  protected double a;
+  protected double b;
 
   public Ellipse(Color color, double focusX1, double focusY1, double focusX2, double focusY2, double D) {
     super(color, focusX1, focusX2);
@@ -15,8 +18,6 @@ public class Ellipse extends Shape {
     double focusDist = arithmeticDistance(this.x1, this.y1, this.x2, this.y2);
     double c = focusDist / 2;
     this.b = Math.sqrt(Math.pow(a, 2) - Math.pow(c, 2));
-    this.area = Math.PI * this.a * this.b;
-    this.circumference = computeCircumference(this.a, this.b);
   }
 
   @Override
@@ -27,7 +28,7 @@ public class Ellipse extends Shape {
   }
 
   @Override
-  public boolean is_inside(double x, double y) { // TODO verify the math
+  public boolean is_inside(double x, double y) {
     double distanceFromFirstFocal = arithmeticDistance(x1, y1, x, y);
     double distanceFromSecondFocal = arithmeticDistance(x2, y2, x, y);
     if (distanceFromFirstFocal + distanceFromSecondFocal <= D) {
@@ -41,18 +42,18 @@ public class Ellipse extends Shape {
   public Ellipse copy() {
     return new Ellipse(this.color, this.x1, this.y1, this.x2, this.y2, this.D);
   }
-
-  private static double computeCircumference(double a, double b) {
-    final int N = 16;
+  
+  @Override
+  public double getCircumference() {
     double sum = 0;
 
     for (int n = 1; n < N; n++) {
       double A = doublefactorial(2 * n - 1) / (Math.pow(2, n) * factorial(n));
-      double h = Math.pow(a - b, 2) / Math.pow(a + b, 2);
+      double h = Math.pow(this.a - this.b, 2) / Math.pow(this.a + this.b, 2);
       double B = Math.pow(h, n) / Math.pow(2 * n - 1, 2);
       sum += Math.pow(A, 2) * B;
     }
-    double circumference = Math.PI * (a + b) * (sum + 1);
+    double circumference = Math.PI * (this.a + this.b) * (sum + 1);
     return circumference;
   }
 
@@ -64,5 +65,10 @@ public class Ellipse extends Shape {
 
   private static long factorial(int n) {
     return doublefactorial(n) * doublefactorial(n - 1);
+  }
+
+  @Override
+  public double getArea() {
+  	return Math.PI * this.a * this.b;
   }
 }
