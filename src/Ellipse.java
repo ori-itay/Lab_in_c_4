@@ -43,7 +43,7 @@ public class Ellipse extends Shape {
   }
 
   private static double computeCircumference(double a, double b) {
-    final int N = 1000;
+    final int N = 16;
     double sum = 0;
 
     for (int n = 1; n < N; n++) {
@@ -56,13 +56,13 @@ public class Ellipse extends Shape {
     return circumference;
   }
 
-  private static int doublefactorial(int n) {
+  private static long doublefactorial(int n) {
     if (n == 0 || n == 1) return 1;
 
     return n * doublefactorial(n - 2);
   }
 
-  private static int factorial(int n) {
+  private static long factorial(int n) {
     return doublefactorial(n) * doublefactorial(n - 1);
   }
 }
