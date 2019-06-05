@@ -7,15 +7,18 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ToyCAD {
+	
+  private static final boolean EXIT = true;
+  private static final boolean DONT_EXIT = false;
+  
 
   public static void main(
       String[]
-          args) { // DEBUGGING GOES LIKE THIS: checking new command with all shapes, move on to next
-                  // command etc
+          args) {
     List<IShape> shapes = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
     while (true) {
-      String line = scanner.nextLine().replaceAll("\\s+", " ");
+      String line = scanner.nextLine();
       Map<String, Object> parsedCommand = parseLine(line);
       boolean exit = executeCommand(parsedCommand, shapes);
       if (exit) {
@@ -25,7 +28,7 @@ public class ToyCAD {
     scanner.close();
   }
 
-  enum Method {
+  enum PrintTotalMethod {
     AREA,
     CIRCUMFERENCE
   }
@@ -34,31 +37,31 @@ public class ToyCAD {
     switch ((String) parsedCommand.get("command")) {
       case "NEW":
         addNewInstanceToShapes(shapes, parsedCommand);
-        return false;
+        return DONT_EXIT;
       case "DELETE":
         shapes.remove(parsedCommand.get("ID"));
-        return false;
+        return DONT_EXIT;
       case "MOVE":
         shapes
             .get((int) parsedCommand.get("ID"))
             .move((double) parsedCommand.get("moveX"), (double) parsedCommand.get("moveY"));
-        return false;
+        return DONT_EXIT;
       case "COPY":
         IShape copiedShape = shapes.get((int) parsedCommand.get("ID")).copy();
         copiedShape.move((double) parsedCommand.get("moveX"), (double) parsedCommand.get("moveY"));
         shapes.add(copiedShape);
-        return false;
+        return DONT_EXIT;
       case "AREA":
-        printTotalColored(shapes, (IShape.Color) parsedCommand.get("color"), Method.AREA);
-        return false;
+        printTotalColored(shapes, (IShape.Color) parsedCommand.get("color"), PrintTotalMethod.AREA);
+        return DONT_EXIT;
       case "COLOR":
         shapes
             .get((int) parsedCommand.get("ID"))
             .setColor((IShape.Color) parsedCommand.get("color"));
-        return false;
+        return DONT_EXIT;
       case "CIRCUMFERENCE":
-        printTotalColored(shapes, (IShape.Color) parsedCommand.get("color"), Method.CIRCUMFERENCE);
-        return false;
+        printTotalColored(shapes, (IShape.Color) parsedCommand.get("color"), PrintTotalMethod.CIRCUMFERENCE);
+        return DONT_EXIT;
       case "IS_INSIDE":
         if (shapes
             .get((int) parsedCommand.get("ID"))
@@ -67,25 +70,26 @@ public class ToyCAD {
         } else {
           System.out.println("0");
         }
-        return false;
+        return DONT_EXIT;
       case "EXIT":
-        return true;
+        return EXIT;
       default:
-        return false;
+    	return DONT_EXIT;
     }
   }
 
   private static void addNewInstanceToShapes(
       List<IShape> shapes,
-      Map<String, Object> parsedCommand) { // TODO add area field...to consturtor or not..L54/55
+      Map<String, Object> parsedCommand) {
+	IShape shape = null;
     String className = (String) parsedCommand.get("className");
     double x1 = (double) parsedCommand.get("x1");
     double y1 = (double) parsedCommand.get("y1");
     IShape.Color color = (IShape.Color) parsedCommand.get("color");
-    switch (className) { // change to if? and then no code replication.... with x2 x3 etc
+    switch (className) {
       case "ELLIPSE":
         double D = (double) parsedCommand.get("D");
-        IShape ellipse =
+        shape =
             new Ellipse(
                 color,
                 x1,
@@ -93,16 +97,13 @@ public class ToyCAD {
                 (double) parsedCommand.get("x2"),
                 (double) parsedCommand.get("y2"),
                 D);
-        // ellipse.calculateArea();
-        shapes.add(ellipse); // debug that its the incremented ID..
         break;
       case "CIRCLE":
         double radius = (double) parsedCommand.get("radius");
-        IShape circle = new Circle(color, x1, y1, radius);
-        shapes.add(circle);
+        shape = new Circle(color, x1, y1, radius);
         break;
       case "PARALLELOGRAM":
-        IShape parallelogram =
+    	  shape =
             new Parallelogram(
                 color,
                 x1,
@@ -111,21 +112,18 @@ public class ToyCAD {
                 (double) parsedCommand.get("y2"),
                 (double) parsedCommand.get("x3"),
                 (double) parsedCommand.get("y3"));
-        shapes.add(parallelogram);
         break;
       case "RECTANGLE":
-        IShape rectangle =
+    	  shape =
             new Rectangle(
                 color, x1, y1, (double) parsedCommand.get("x2"), (double) parsedCommand.get("y2"));
-        shapes.add(rectangle);
         break;
       case "SQUARE":
         double length = (double) parsedCommand.get("length");
-        IShape square = new Square(color, x1, y1, length);
-        shapes.add(square);
+        shape = new Square(color, x1, y1, length);
         break;
       case "TRIANGLE":
-        IShape triangle =
+    	  shape =
             new Triangle(
                 color,
                 x1,
@@ -134,17 +132,15 @@ public class ToyCAD {
                 (double) parsedCommand.get("y2"),
                 (double) parsedCommand.get("x3"),
                 (double) parsedCommand.get("y3"));
-        shapes.add(triangle);
         break;
-      default:
-        System.out.println("Invalid shape name!");
     }
+    shapes.add(shape);
   }
 
   private static Map<String, Object> parseLine(String line) {
     Map<String, Object> parsedCommand = new HashMap<>();
-    String Uppercased_line = line.toUpperCase();
-    List<String> splittedLine = Arrays.asList(Uppercased_line.split(" "));
+    String singleSpaceUppercasedLine = line.replaceAll("\\s+", " ").toUpperCase();
+    List<String> splittedLine = Arrays.asList(singleSpaceUppercasedLine.split(" "));
     if (splittedLine.get(0).equals("")) {
       splittedLine.remove(0);
     }
@@ -181,7 +177,6 @@ public class ToyCAD {
       default:
         System.out.println("Command doesn't exist!");
     }
-
     return parsedCommand;
   }
 
@@ -213,18 +208,17 @@ public class ToyCAD {
     }
   }
 
-  static void printTotalColored(List<IShape> shapes, IShape.Color color, Method method) {
+  static void printTotalColored(List<IShape> shapes, IShape.Color color, PrintTotalMethod method) {
     DecimalFormat formatter = new DecimalFormat("#0.00");
     double totalColored = 0;
 
     for (IShape shape : shapes) {
-      if (method == Method.AREA && shape.getColor() == color) {
+      if (method == PrintTotalMethod.AREA && shape.getColor() == color) {
         totalColored += shape.getArea();
-      } else if (method == Method.CIRCUMFERENCE && shape.getColor() == color) {
+      } else if (method == PrintTotalMethod.CIRCUMFERENCE && shape.getColor() == color) {
         totalColored += shape.getCircumference();
       }
     }
     System.out.println(formatter.format(totalColored));
-    return;
   }
 }

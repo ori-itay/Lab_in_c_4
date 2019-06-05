@@ -13,7 +13,7 @@ public class Triangle extends Shape {
   }
 
   @Override
-  public void move(double moveX, double moveY) { // code reuse with the one in parallelogram
+  public void move(double moveX, double moveY) {
     super.move(moveX, moveY);
     this.x2 += moveX;
     this.x3 += moveX;
@@ -23,7 +23,7 @@ public class Triangle extends Shape {
 
   @Override
   public boolean is_inside(double x, double y) {
-    double Area = this.getArea();
+    double area = this.getArea();
 
     double partialArea1 = Parallelogram.computeArea(x, y, x2, y2, x3, y3) / 2;
 
@@ -31,7 +31,7 @@ public class Triangle extends Shape {
 
     double partialArea3 = Parallelogram.computeArea(x1, y1, x2, y2, x, y) / 2;
 
-    return (Area == partialArea1 + partialArea2 + partialArea3);
+    return (area == partialArea1 + partialArea2 + partialArea3);
   }
 
   @Override

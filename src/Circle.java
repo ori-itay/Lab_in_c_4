@@ -11,6 +11,6 @@ public class Circle extends Ellipse {
   
   @Override
   public double getCircumference() {
-    return Math.PI * this.a;
+    return Math.PI * this.D;
   }
 }

@@ -4,13 +4,9 @@ public abstract class Shape implements IShape {
   protected double y1;
   protected static int ID;
 
-  public Shape() {
+  public Shape(Color color, double x1, double y1) {
     System.out.println(ID);
     ID++;
-  }
-
-  public Shape(Color color, double x1, double y1) {
-    this();
     this.x1 = x1;
     this.y1 = y1;
     this.color = color;

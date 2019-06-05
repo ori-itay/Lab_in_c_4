@@ -1,10 +1,10 @@
 public class Parallelogram extends Shape {
   protected double x2;
   protected double y2;
-  protected double x3;
-  protected double y3;
-  protected double x4;
-  protected double y4;
+  private double x3;
+  private double y3;
+  private double x4;
+  private double y4;
 
   public Parallelogram(
       Color color, double x1, double y1, double x2, double y2, double x3, double y3) {
@@ -30,9 +30,9 @@ public class Parallelogram extends Shape {
 
   @Override
   public boolean is_inside(double x, double y) {
-    Triangle T1 = new Triangle(this.color, this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
-    Triangle T2 = new Triangle(this.color, this.x1, this.y1, this.x4, this.y4, this.x3, this.y3);
-    return (T1.is_inside(x, y) || T2.is_inside(x, y));
+    Triangle triangle1 = new Triangle(this.color, this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+    Triangle triangle2 = new Triangle(this.color, this.x1, this.y1, this.x4, this.y4, this.x3, this.y3);
+    return (triangle1.is_inside(x, y) || triangle2.is_inside(x, y));
   }
 
   @Override

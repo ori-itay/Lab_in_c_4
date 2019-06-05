@@ -1,16 +1,14 @@
-
 public class Ellipse extends Shape {
 	
-  protected static final int N = 16;
-	
+  private static final int N = 16;
   private double x2;
   private double y2;
   protected double D;
-  protected double a;
-  protected double b;
+  private double a; // names a,b,c are conventions from Ellipse Wikipedia article
+  private double b;
 
   public Ellipse(Color color, double focusX1, double focusY1, double focusX2, double focusY2, double D) {
-    super(color, focusX1, focusX2);
+    super(color, focusX1, focusY1);
     this.x2 = focusX2;
     this.y2 = focusY2;
     this.D = D;
@@ -44,6 +42,11 @@ public class Ellipse extends Shape {
   }
   
   @Override
+  public double getArea() {
+  	return Math.PI * this.a * this.b;
+  }
+  
+  @Override
   public double getCircumference() {
     double sum = 0;
 
@@ -65,10 +68,5 @@ public class Ellipse extends Shape {
 
   private static long factorial(int n) {
     return doublefactorial(n) * doublefactorial(n - 1);
-  }
-
-  @Override
-  public double getArea() {
-  	return Math.PI * this.a * this.b;
   }
 }
